@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/country_emoji"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_margin="@dimen/medium_margin"
+        android:contentDescription="@string/country_flag_content_desc"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/country_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/medium_margin"
+        app:layout_constraintEnd_toStartOf="@+id/country_emoji"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Country"
+        tools:body="Denmark" />
+
+    <TextView
+        android:id="@+id/country_coordination"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/small_padding"
+        android:text="@string/bin_country_coordination_text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/country_name"
+        tools:text="(latitude: 56, longitude: 10)" />
+
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/country_currency"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/country_numeric"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/country_coordination"
+        app:title="Currency"
+        tools:body="DKK" />
+
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/country_numeric"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/country_currency"
+        app:layout_constraintTop_toBottomOf="@+id/country_coordination"
+        app:title="Numeric"
+        tools:body="208" />
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/country_alpha2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/country_currency"
+        app:title="Aplha2"
+        tools:body="DK" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

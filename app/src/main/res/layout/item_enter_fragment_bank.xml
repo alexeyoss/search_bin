@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/bank_city"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bank_name"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="City"
+        tools:body="Hjørring" />
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/bank_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@id/bank_city"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Bank"
+        tools:body="Jyske Bank" />
+
+    <TextView
+        android:id="@+id/bank_url"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/extra_small_padding"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/bank_phone"
+        app:layout_constraintTop_toBottomOf="@+id/bank_name"
+        tools:text="www.jyskebank.dk" />
+
+
+    <TextView
+        android:id="@+id/bank_phone"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/extra_small_padding"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/bank_url"
+        app:layout_constraintTop_toBottomOf="@+id/bank_city"
+        tools:text="+4589893300" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

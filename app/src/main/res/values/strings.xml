@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Search BIN</string>
+
+    <!--EnterBin Fragment-->
+    <string name="input_bin_hint_text">Enter BIN</string>
+    <string name="ic_history_desc">History icon</string>
+    <string name="helper_text">*BIN must contain 6 or 8 digits</string>
+    <string name="bin_country_coordination_text">(latitude: %1$s , longitude: %2$s )</string>
+    <string name="country_flag_content_desc">Country flag content description</string>
+</resources>

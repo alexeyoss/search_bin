@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/medium_padding"
+    tools:context=".presentation.enter_bin_fragment.EnterBinFragment">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/bin_inputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/medium_margin"
+        app:counterEnabled="true"
+        app:counterMaxLength="8"
+        app:endIconContentDescription="@string/ic_history_desc"
+        app:endIconDrawable="@drawable/ic_history_active"
+        app:endIconMode="custom"
+        app:endIconTint="@color/seed"
+        app:endIconTintMode="src_atop"
+        app:helperText="@string/helper_text"
+        app:helperTextTextAppearance="@style/HelperTextAppearance"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/bin_inputEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:digits="1234567890"
+            android:hint="@string/input_bin_hint_text"
+            android:inputType="number"
+            android:maxLength="8"
+            android:maxLines="1"
+            android:textAlignment="textStart"
+            android:textSize="@dimen/default_text_size"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="12345678" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_binInfo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/medium_margin"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bin_inputLayout"
+        tools:listitem="@layout/item_enter_bin_country" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/seed"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/rv_binInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bin_inputLayout" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

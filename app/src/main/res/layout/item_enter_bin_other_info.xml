@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/other_scheme"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/other_type"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Scheme / Network"
+        tools:body="@tools:sample/full_names" />
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/other_type"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/other_scheme"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Type"
+        tools:body="@tools:sample/full_names" />
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/other_brand"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toStartOf="@+id/other_prepaid"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/other_scheme"
+        app:title="Brand"
+        tools:body="@tools:sample/full_names" />
+
+    <com.example.searchbin.presentation.custom_views.BinDetailsView
+        android:id="@+id/other_prepaid"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/other_brand"
+        app:layout_constraintTop_toBottomOf="@id/other_type"
+        app:title="Prepaid"
+        tools:body="@tools:sample/full_names" />
+</androidx.constraintlayout.widget.ConstraintLayout>
