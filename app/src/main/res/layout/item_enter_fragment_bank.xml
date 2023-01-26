@@ -11,19 +11,19 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bank_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:title="City"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bank_name"
+        app:title="@string/bank_city_header_text"
         tools:body="Hjørring" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
         android:id="@+id/bank_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@id/bank_city"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Bank"
+        app:title="@string/bank_name_header_text"
         tools:body="Jyske Bank" />
 
     <TextView
@@ -31,9 +31,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="@dimen/extra_small_padding"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textColor="@color/md_theme_light_onPrimaryContainer"
         app:layout_constraintEnd_toStartOf="@id/bank_phone"
-        app:layout_constraintTop_toBottomOf="@+id/bank_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bank_city"
         tools:text="www.jyskebank.dk" />
 
 
@@ -42,6 +43,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:padding="@dimen/extra_small_padding"
+        android:textColor="@color/md_theme_light_onPrimaryContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/bank_url"
         app:layout_constraintTop_toBottomOf="@+id/bank_city"

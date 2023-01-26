@@ -1,7 +1,10 @@
 package com.example.searchbin.di
 
 import android.content.Context
+import com.example.searchbin.data.CachedBinInfoStore
+import com.example.searchbin.data.CachedBinInfoStoreImpl
 import com.example.searchbin.data.db.BinDb
+import com.example.searchbin.data.mappers.CachedBinInfoMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -19,4 +22,14 @@ object DataModule {
         @ApplicationContext app: Context,
     ): BinDb = BinDb.getInstance(app)
 
+
+    @Singleton
+    @Provides
+    fun provideCachedBinInfoMapper() = CachedBinInfoMapper()
+
+    @Singleton
+    @Provides
+    fun provideMovieCache(impl: CachedBinInfoStoreImpl): CachedBinInfoStore {
+        return impl
+    }
 }

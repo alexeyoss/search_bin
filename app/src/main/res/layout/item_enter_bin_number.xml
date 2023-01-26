@@ -11,12 +11,13 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
+        android:textColor="@color/md_theme_light_onPrimaryContainer"
+        android:text="@string/card_number_header_text"
         android:textSize="@dimen/medium_text_size"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:text="Card number" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
         android:id="@+id/number_length"
@@ -25,8 +26,8 @@
         app:layout_constraintEnd_toStartOf="@+id/number_luhn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/number_header"
-        tools:body="@tools:sample/full_names"
-        app:title="Length" />
+        app:title="@string/length_header_text"
+        tools:body="@tools:sample/full_names" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
         android:id="@+id/number_luhn"
@@ -35,7 +36,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/number_length"
         app:layout_constraintTop_toBottomOf="@+id/number_header"
-        tools:body="@tools:sample/full_names"
-        app:title="LUHN" />
+        app:title="@string/luhn_header_text"
+        tools:body="@tools:sample/full_names" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

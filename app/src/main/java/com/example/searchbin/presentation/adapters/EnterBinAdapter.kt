@@ -1,13 +1,10 @@
-package com.example.searchbin.presentation.enter_bin_fragment
+package com.example.searchbin.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
-import com.example.searchbin.data.BinItem
-import com.example.searchbin.presentation.utils.BaseViewHolder
-import com.example.searchbin.presentation.utils.BinItemFingerprint
-import com.example.searchbin.presentation.utils.FingerprintDiffUtil
+import com.example.searchbin.data.models.BinItem
 
 class EnterBinAdapter(
     private val fingerprints: List<BinItemFingerprint<*, *>>

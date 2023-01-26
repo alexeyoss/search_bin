@@ -1,7 +1,6 @@
 package com.example.searchbin.data.models
 
 import android.os.Parcelable
-import com.example.searchbin.data.BinItem
 import kotlinx.parcelize.Parcelize
 
 

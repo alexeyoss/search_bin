@@ -3,29 +3,38 @@ package com.example.searchbin.presentation.enter_bin_fragment
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchbin.R
-import com.example.searchbin.data.BinItem
-import com.example.searchbin.databinding.FragmentEnterBinBinding
-import com.example.searchbin.presentation.fingerprints.BankFingerprint
-import com.example.searchbin.presentation.fingerprints.CountryFingerprint
-import com.example.searchbin.presentation.fingerprints.NumberFingerprint
-import com.example.searchbin.presentation.fingerprints.OtherInfoFingerprint
-import com.example.searchbin.presentation.utils.CommonStates
+import com.example.searchbin.databinding.EnterBinFragmentLayoutBinding
+import com.example.searchbin.presentation.adapters.EnterBinAdapter
+import com.example.searchbin.presentation.adapters.fingerprints.BankFingerprint
+import com.example.searchbin.presentation.adapters.fingerprints.CountryFingerprint
+import com.example.searchbin.presentation.adapters.fingerprints.NumberFingerprint
+import com.example.searchbin.presentation.adapters.fingerprints.OtherInfoFingerprint
+import com.example.searchbin.presentation.utils.CommonSideEffects
+import com.example.searchbin.presentation.utils.CommonUiStates
 import com.example.searchbin.presentation.utils.UiUtil
 import com.example.searchbin.utils.collectOnLifecycle
+import com.example.searchbin.utils.textChanges
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.*
 
 @AndroidEntryPoint
-class EnterBinFragment : Fragment(R.layout.fragment_enter_bin) {
+class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
 
     private val viewModel by viewModels<EnterBinViewModelImpl>()
-    private var binding: FragmentEnterBinBinding? = null
+    private var binding: EnterBinFragmentLayoutBinding? = null
 
     private val fingerprintList by lazy {
         listOf(
@@ -36,6 +45,7 @@ class EnterBinFragment : Fragment(R.layout.fragment_enter_bin) {
     private val enterBinAdapter by lazy {
         EnterBinAdapter(fingerprintList)
     }
+
 
     private val onScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {}
@@ -50,7 +60,7 @@ class EnterBinFragment : Fragment(R.layout.fragment_enter_bin) {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentEnterBinBinding.inflate(layoutInflater, container, false)
+        val binding = EnterBinFragmentLayoutBinding.inflate(layoutInflater, container, false)
         this.binding = binding
         return binding.root
     }
@@ -60,31 +70,75 @@ class EnterBinFragment : Fragment(R.layout.fragment_enter_bin) {
         initListeners()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
     private fun initListeners() {
         val binding = checkNotNull(binding)
 
-        viewModel.binInfoFlow.collectOnLifecycle(this@EnterBinFragment) { state ->
+        viewModel.uiStateFlow.collectOnLifecycle(this@EnterBinFragment) { state ->
             when (state) {
-                is CommonStates.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    enterBinAdapter.submitList(state.data as List<BinItem>)
-                }
-                is CommonStates.Empty -> Unit
-                is CommonStates.Error -> Snackbar.make(
-                    binding.root, "Shit happens!", Snackbar.LENGTH_SHORT
-                ).show()
-
-                is CommonStates.Loading -> {
-                    // TODO refactoring to side effect approach
-                    binding.progressBar.visibility = View.VISIBLE
-                }
+                is CommonUiStates.Success -> enterBinAdapter.submitList(state.data)
+                is CommonUiStates.SuccessNoResult -> Unit
+                is CommonUiStates.Initial -> Unit
+                is CommonUiStates.Error -> Unit
+                is CommonUiStates.Loading -> enterBinAdapter.submitList(emptyList())
             }
         }
 
-
         with(binding) {
+
+            binInputEditText.textChanges()
+                // TODO debounce provoke UI inconsistency cause we can delete text quickly
+                .debounce(300)
+                .distinctUntilChanged()
+                .filter { !it.isNullOrEmpty() }
+                .map { it.toString() }.onEach { binNumber ->
+                    viewModel.setEvent(
+                        EnterBinFragmentEvents.GetBinInfo(binNumber.toLong())
+                    )
+                }.launchIn(lifecycleScope)
+
+
+            viewModel.sideEffectsFlow.collectOnLifecycle(this@EnterBinFragment) { sideEffect ->
+                when (sideEffect) {
+                    CommonSideEffects.Initial -> Unit
+                    CommonSideEffects.NoSearchResult -> {
+                        isLoading(false)
+
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.noResult_snackbar_text),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    CommonSideEffects.ShowError -> {
+                        isLoading(false)
+
+                        Snackbar.make(
+                            binding.root,
+                            getString(R.string.error_snackbar_text),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
+                    }
+                    CommonSideEffects.Loading -> isLoading(true)
+                    CommonSideEffects.ShowResult -> isLoading(false)
+                }
+            }
+
             binInputLayout.setEndIconOnClickListener {
-                viewModel.getBinItems(binding.binInputEditText.text.toString())
+
+            }
+        }
+    }
+
+    private fun isLoading(value: Boolean) {
+        val binding = checkNotNull(binding)
+        with(binding) {
+            if (value) {
+                progressBar.visibility = VISIBLE
+                recycleView.visibility = GONE
+            } else {
+                progressBar.visibility = GONE
+                recycleView.visibility = VISIBLE
             }
         }
     }
@@ -92,7 +146,7 @@ class EnterBinFragment : Fragment(R.layout.fragment_enter_bin) {
     private fun initRecyclerView() {
         val binding = checkNotNull(binding)
         with(binding) {
-            rvBinInfo.apply {
+            recycleView.apply {
                 setHasFixedSize(true)
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = enterBinAdapter
@@ -102,9 +156,12 @@ class EnterBinFragment : Fragment(R.layout.fragment_enter_bin) {
         }
     }
 
-
     override fun onDestroyView() {
         super.onDestroyView()
+        val binding = checkNotNull(binding)
+
+        binding.binInputLayout.setEndIconOnClickListener(null)
+        binding.recycleView.clearOnScrollListeners()
         this.binding = null
     }
 }

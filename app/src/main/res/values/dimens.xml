@@ -4,6 +4,7 @@
     <dimen name="small_text_size">10sp</dimen>
     <dimen name="default_text_size">14sp</dimen>
     <dimen name="medium_text_size">16sp</dimen>
+    <dimen name="large_text_size">24sp</dimen>
 
     <dimen name="input_cornerRadius">10dp</dimen>
     <dimen name="input_boxStrokeWidth">1dp</dimen>

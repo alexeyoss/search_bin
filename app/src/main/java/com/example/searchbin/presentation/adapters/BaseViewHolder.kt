@@ -1,8 +1,8 @@
-package com.example.searchbin.presentation.utils
+package com.example.searchbin.presentation.adapters
 
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewbinding.ViewBinding
-import com.example.searchbin.data.BinItem
+import com.example.searchbin.data.models.BinItem
 
 abstract class BaseViewHolder<out V : ViewBinding, I : BinItem>(
     val binding: V

@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="2"
+            android:textColor="@color/md_theme_light_onPrimaryContainer"
             android:textSize="@dimen/default_text_size"
             android:textStyle="bold"
             tools:text="Header" />
@@ -28,7 +29,7 @@
             android:layout_marginTop="@dimen/extra_small_margin"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/black"
+            android:textColor="@color/md_theme_light_onPrimaryContainer"
             android:textSize="@dimen/default_text_size"
             tools:text="Body data" />
 
@@ -36,6 +37,6 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="@dimen/small_margin"
-            android:background="@color/md_theme_light_outline" />
+            android:background="@color/md_theme_light_primaryContainer" />
     </LinearLayout>
 </merge>

@@ -1,7 +1,7 @@
 package com.example.searchbin.di
 
 import android.content.Context
-import com.example.searchbin.App
+import com.example.searchbin.SearchBinApp
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -13,5 +13,7 @@ import dagger.hilt.components.SingletonComponent
 object AppModule {
 
     @Provides
-    fun provideApplication(@ApplicationContext application: Context): App = application as App
+    fun provideApplication(@ApplicationContext application: Context): SearchBinApp =
+        application as SearchBinApp
+
 }

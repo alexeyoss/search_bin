@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav.xml"
+    app:startDestination="@id/enterBinFragment">
+
+    <fragment
+        android:id="@+id/enterBinFragment"
+        android:name="com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment"
+        android:label="enterBinFragment"
+        tools:layout="@layout/enter_bin_fragment_layout">
+
+        <action
+            android:id="@+id/action_enterBinFragment_to_requestHistoryFragment"
+            app:destination="@id/requestHistoryFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestHistoryFragment"
+        android:name="com.example.searchbin.presentation.request_history_fragment.RequestHistoryFragment"
+        android:label="fragment_request_history"
+        tools:layout="@layout/fragment_request_history">
+
+        <action
+            android:id="@+id/action_requestHistoryFragment_to_enterBinFragment"
+            app:destination="@id/enterBinFragment" />
+    </fragment>
+</navigation>

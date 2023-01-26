@@ -45,7 +45,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_binInfo"
+        android:id="@+id/recycleView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/medium_margin"
@@ -62,7 +62,7 @@
         android:indeterminate="true"
         android:indeterminateTint="@color/seed"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/rv_binInfo"
+        app:layout_constraintBottom_toBottomOf="@+id/recycleView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bin_inputLayout" />

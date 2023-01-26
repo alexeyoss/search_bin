@@ -1,26 +1,26 @@
-package com.example.searchbin.utils
+package com.example.searchbin.data
 
 import com.google.gson.GsonBuilder
 import retrofit2.HttpException
 import timber.log.Timber
 import java.net.UnknownHostException
 
-suspend fun <T> safeApiCall(
+suspend fun <T> safeCall(
     block: suspend () -> T
-): NetworkResponseStates<T> = runCatching {
-    NetworkResponseStates.Success(block())
+): ResponseStates<T> = runCatching {
+    ResponseStates.Success(block())
 }.getOrElse {
     Timber.e(it)
     checkThrowable(it)
 }
 
 
-sealed interface NetworkResponseStates<out T> {
-    data class Success<T>(val data: T) : NetworkResponseStates<T>
+sealed interface ResponseStates<out T> {
+    data class Success<T>(val data: T) : ResponseStates<T>
     data class Error(val exception: Throwable) : ErrorState
 }
 
-sealed interface ErrorState : NetworkResponseStates<Nothing> {
+sealed interface ErrorState : ResponseStates<Nothing> {
     data class GenericError(val throwable: Throwable) : ErrorState
     data class ServerError(
         val code: Int? = null,
@@ -29,15 +29,23 @@ sealed interface ErrorState : NetworkResponseStates<Nothing> {
     ) : ErrorState
 
     object ConnectionError : ErrorState
+    object SuccessNoResult : ErrorState
 }
 
-private fun checkThrowable(throwable: Throwable): NetworkResponseStates<Nothing> = when (throwable) {
-    is HttpException -> parseHttpException(throwable)
-    is UnknownHostException -> ErrorState.ConnectionError
-    else -> ErrorState.GenericError(throwable)
-}
+private fun checkThrowable(throwable: Throwable): ResponseStates<Nothing> =
+    when (throwable) {
+        is HttpException -> ErrorState.SuccessNoResult
+        is UnknownHostException -> ErrorState.ConnectionError
+        else -> ErrorState.GenericError(throwable)
+    }
 
-private fun parseHttpException(exception: HttpException): NetworkResponseStates<Nothing> {
+data class NetworkErrorResponse(
+    val code: String,
+    val reason: String
+)
+
+/** Use in classic way to handle with HTTP exception */
+private fun parseHttpException(exception: HttpException): ResponseStates<Nothing> {
     return runCatching {
         val response = exception.response()?.let {
             GsonBuilder()
@@ -57,9 +65,4 @@ private fun parseHttpException(exception: HttpException): NetworkResponseStates<
         ErrorState.GenericError(it)
     }
 }
-
-data class NetworkErrorResponse(
-    val code: String,
-    val reason: String
-)
 

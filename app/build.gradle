@@ -4,6 +4,7 @@ plugins {
     id "kotlin-parcelize"
     id "com.google.dagger.hilt.android"
     id "kotlin-kapt"
+    id 'androidx.navigation.safeargs'
 }
 
 def localProperties = new Properties()
@@ -53,6 +54,7 @@ dependencies {
     implementation "com.google.android.material:material:1.7.0"
     implementation "androidx.constraintlayout:constraintlayout:2.1.4"
     implementation 'androidx.core:core-ktx:1.9.0'
+    implementation "androidx.multidex:multidex:2.0.1"
 
     testImplementation "junit:junit:4.13.2"
 
@@ -67,7 +69,6 @@ dependencies {
     implementation "com.squareup.okhttp3:logging-interceptor:$okhttp3_version"
     // Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
     // Fragment extension
     implementation "androidx.fragment:fragment-ktx:1.5.5"
     // Room
@@ -77,11 +78,12 @@ dependencies {
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    // Android App Startup Runtime
-    implementation "androidx.startup:startup-runtime:$startUp_runtime_version"
     // Timber
     implementation "com.jakewharton.timber:timber:$timber_version"
-    // Kotlin reflect
-    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    // RecyclerView
+    implementation "androidx.recyclerview:recyclerview:$recyclerview_verion"
+    // Navigator component
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
 }

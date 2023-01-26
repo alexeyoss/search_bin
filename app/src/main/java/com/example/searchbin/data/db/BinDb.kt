@@ -4,21 +4,22 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import androidx.viewbinding.BuildConfig
-import com.example.searchbin.data.RequestHistory
-import com.example.searchbin.presentation.utils.ConsHolder
-
-/**
- * The [RoomDatabase] we use in this app.
- */
+import com.example.searchbin.data.db.converters.NetworkBinInfoDTOConverter
+import com.example.searchbin.data.db.dao.CachedBinInfoDao
+import com.example.searchbin.data.db.BinDbConstHolder.DB_NAME
+import com.example.searchbin.data.db.BinDbConstHolder.DB_VERSION
+import com.example.searchbin.data.entities.CachedBinInfoDTO
 
 @Database(
-    entities = [RequestHistory::class],
-    version = ConsHolder.BIN_DB_VERSION,
-    exportSchema = false
+    entities = [CachedBinInfoDTO::class], version = DB_VERSION, exportSchema = false
+)
+@TypeConverters(
+    NetworkBinInfoDTOConverter::class
 )
 abstract class BinDb : RoomDatabase() {
-    abstract fun binDao(): BinDao
+    abstract fun binDao(): CachedBinInfoDao
 
     companion object {
         @Volatile
@@ -29,8 +30,8 @@ abstract class BinDb : RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): BinDb {
-            val databaseBuilder = Room.databaseBuilder(context, BinDb::class.java, "wash_me.db")
-//            BinDb.addMigrartions(databaseBuilder, context) TODO
+            val databaseBuilder = Room.databaseBuilder(context, BinDb::class.java, DB_NAME)
+//            BinDb.addMigrations(databaseBuilder, context) TODO
             if (BuildConfig.DEBUG) {
                 databaseBuilder.fallbackToDestructiveMigration()
             }

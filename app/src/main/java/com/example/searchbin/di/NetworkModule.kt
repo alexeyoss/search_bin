@@ -1,7 +1,7 @@
 package com.example.searchbin.di
 
 import com.example.searchbin.BuildConfig
-import com.example.searchbin.data.network.ApiService
+import com.example.searchbin.data.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

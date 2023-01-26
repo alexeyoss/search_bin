@@ -12,7 +12,7 @@
         app:layout_constraintEnd_toStartOf="@+id/other_type"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Scheme / Network"
+        app:title="@string/scheme_network_header_text"
         tools:body="@tools:sample/full_names" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
@@ -22,7 +22,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/other_scheme"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Type"
+        app:title="@string/type_header_text"
         tools:body="@tools:sample/full_names" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
@@ -32,7 +32,7 @@
         app:layout_constraintEnd_toStartOf="@+id/other_prepaid"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/other_scheme"
-        app:title="Brand"
+        app:title="@string/brand_header_text"
         tools:body="@tools:sample/full_names" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
@@ -42,6 +42,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/other_brand"
         app:layout_constraintTop_toBottomOf="@id/other_type"
-        app:title="Prepaid"
+        app:title="@string/prepaid"
         tools:body="@tools:sample/full_names" />
 </androidx.constraintlayout.widget.ConstraintLayout>

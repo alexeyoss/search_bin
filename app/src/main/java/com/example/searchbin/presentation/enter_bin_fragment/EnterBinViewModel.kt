@@ -1,11 +1,13 @@
 package com.example.searchbin.presentation.enter_bin_fragment
 
-import com.example.searchbin.presentation.utils.CommonStates
+import com.example.searchbin.presentation.utils.CommonSideEffects
+import com.example.searchbin.presentation.utils.CommonUiStates
 import kotlinx.coroutines.flow.StateFlow
 
 interface EnterBinViewModel {
 
-    val binInfoFlow: StateFlow<CommonStates>
+    val uiStateFlow: StateFlow<CommonUiStates>
+    val sideEffectsFlow: StateFlow<CommonSideEffects>
 
-    fun getBinItems(binNumber: String)
+    fun setEvent(event: EnterBinFragmentEvents)
 }

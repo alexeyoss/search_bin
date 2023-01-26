@@ -24,7 +24,7 @@
         app:layout_constraintEnd_toStartOf="@+id/country_emoji"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Country"
+        app:title="@string/country_header_text"
         tools:body="Denmark" />
 
     <TextView
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/small_padding"
         android:text="@string/bin_country_coordination_text"
+        android:textColor="@color/md_theme_light_onPrimaryContainer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/country_name"
@@ -46,7 +47,7 @@
         app:layout_constraintEnd_toStartOf="@+id/country_numeric"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/country_coordination"
-        app:title="Currency"
+        app:title="@string/currency_header_text"
         tools:body="DKK" />
 
 
@@ -57,7 +58,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/country_currency"
         app:layout_constraintTop_toBottomOf="@+id/country_coordination"
-        app:title="Numeric"
+        app:title="@string/numeric_header_text"
         tools:body="208" />
 
     <com.example.searchbin.presentation.custom_views.BinDetailsView
@@ -67,7 +68,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/country_currency"
-        app:title="Aplha2"
+        app:title="@string/alpha2_header_text"
         tools:body="DK" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

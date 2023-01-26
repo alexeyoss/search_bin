@@ -1,14 +1,14 @@
-package com.example.searchbin.presentation.fingerprints
+package com.example.searchbin.presentation.adapters.fingerprints
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import com.example.searchbin.R
-import com.example.searchbin.data.BinItem
+import com.example.searchbin.data.models.BinItem
 import com.example.searchbin.data.models.NumberDTO
 import com.example.searchbin.databinding.ItemEnterBinNumberBinding
-import com.example.searchbin.presentation.utils.BaseViewHolder
-import com.example.searchbin.presentation.utils.BinItemFingerprint
+import com.example.searchbin.presentation.adapters.BaseViewHolder
+import com.example.searchbin.presentation.adapters.BinItemFingerprint
 
 class NumberFingerprint : BinItemFingerprint<ItemEnterBinNumberBinding, NumberDTO> {
 

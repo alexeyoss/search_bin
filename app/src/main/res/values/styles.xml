@@ -7,10 +7,18 @@
         <item name="android:textStyle">italic</item>
     </style>
 
-<!--    <style name="ErrorTextAppearance" parent="TextAppearance.AppCompat">-->
-    <!--        <item name="android:textColor">@color/md_theme_light_outline</item>-->
-    <!--        <item name="android:textSize">@dimen/small_text_size</item>-->
-    <!--        <item name="android:textStyle">italic</item>-->
-    <!--    </style>-->
 
+    <style name="Title" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">@color/seed</item>
+        <item name="android:textSize">@dimen/large_text_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RequestHistoryBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/bottom_sheet_background</item>
+    </style>
 </resources>

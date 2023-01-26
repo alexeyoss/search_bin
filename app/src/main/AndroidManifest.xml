@@ -5,7 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".App"
+        android:name=".SearchBinApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -23,17 +23,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="com.example.searchbin.androidx-startup"
-            android:exported="false"
-            tools:node="merge"
-            tools:replace="android:authorities">
-            <meta-data
-                android:name="com.example.searchbin.initializer.TimberInitializer"
-                android:value="androidx.startup" />
-        </provider>
     </application>
 
 </manifest>
