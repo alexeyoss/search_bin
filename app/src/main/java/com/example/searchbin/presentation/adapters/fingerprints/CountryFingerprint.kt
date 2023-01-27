@@ -1,5 +1,6 @@
 package com.example.searchbin.presentation.adapters.fingerprints
 
+import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -43,14 +44,16 @@ class CountryViewHolder(
     override fun onBind(item: CountryDTO) {
         super.onBind(item)
         with(binding) {
-            countryName.body = item.name.toString()
-            // TODO emoji set
+            countryName.body = item.name ?: "-"
+
             countryCoordination.text = String.format(
-                "(latitude: %1\$s , longitude: %2\$s )", item.latitude, item.longitude
+                "(latitude: %1\$s , longitude: %2\$s)",
+                item.latitude ?: "-",
+                item.longitude ?: "-"
             )
-            countryCurrency.body = item.currency.toString()
-            countryNumeric.body = item.numeric.toString()
-            countryAlpha2.body = item.alpha2.toString()
+            countryCurrency.body = item.currency ?: "-"
+            countryNumeric.body = item.numeric ?: "-"
+            countryAlpha2.body = item.alpha2 ?: "-"
         }
     }
 }

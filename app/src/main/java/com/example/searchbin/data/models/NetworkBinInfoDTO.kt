@@ -7,9 +7,9 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class NetworkBinInfoDTO(
     val number: NumberDTO?,
-    val scheme: String? = "",
-    val type: String? = "",
-    val brand: String? = "",
+    val scheme: String?,
+    val type: String?,
+    val brand: String?,
     val prepaid: Boolean?,
     val country: CountryDTO?,
     val bank: BankDTO?

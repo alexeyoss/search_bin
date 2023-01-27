@@ -1,28 +1,33 @@
 <resources>
+    <!--App name-->
     <string name="app_name">Search BIN</string>
 
     <string name="input_bin_hint_text">Enter BIN</string>
-    <string name="ic_history_desc">History icon</string>
     <string name="helper_text">*BIN must contain 6 or 8 digits</string>
     <string name="bin_country_coordination_text">(latitude: %1$s , longitude: %2$s )</string>
-    <string name="country_flag_content_desc">Country flag content description</string>
     <string name="error_snackbar_text">Got an error. Please try again!</string>
     <string name="noResult_snackbar_text">No result!</string>
-    <string name="history_fragment_title_text">History:</string>
-    <string name="info_icon_desc">Info icon</string>
+    <string name="history_fragment_title_text">History</string>
     <string name="card_number_header_text">Card number</string>
-    <string name="length_header_text">Length</string>
-    <string name="luhn_header_text">LUHN</string>
-    <string name="bank_name_header_text">Bank</string>
-    <string name="bank_city_header_text">City</string>
-    <string name="scheme_network_header_text">Scheme / Network</string>
-    <string name="type_header_text">Type</string>
-    <string name="brand_header_text">Brand</string>
-    <string name="prepaid">Prepaid</string>
-    <string name="country_header_text">Country</string>
-    <string name="currency_header_text">Currency</string>
-    <string name="numeric_header_text">Numeric</string>
-    <string name="alpha2_header_text">Aplha2</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="length_header_text">Length:</string>
+    <string name="luhn_header_text">LUHN:</string>
+    <string name="bank_name_header_text">Bank:</string>
+    <string name="bank_city_header_text">City:</string>
+    <string name="scheme_network_header_text">Scheme / Network:</string>
+    <string name="type_header_text">Type:</string>
+    <string name="brand_header_text">Brand:</string>
+    <string name="prepaid">Prepaid:</string>
+    <string name="country_header_text">Country:</string>
+    <string name="currency_header_text">Currency:</string>
+    <string name="numeric_header_text">Numeric:</string>
+    <string name="alpha2_header_text">Aplha2:</string>
+    <string name="history_bin_details_text">BIN - %1$s</string>
+
+    <!--Content description-->
+    <string name="close_button_desc">Close button</string>
+    <string name="info_icon_desc">Info icon</string>
+    <string name="country_flag_content_desc">Country flag content description</string>
+    <string name="ic_history_desc">History icon</string>
+    <string name="search_button_desc">Search button</string>
+
 </resources>

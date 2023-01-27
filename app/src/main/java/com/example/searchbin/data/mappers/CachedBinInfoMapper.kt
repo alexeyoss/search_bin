@@ -1,6 +1,6 @@
 package com.example.searchbin.data.mappers
 
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.data.models.NetworkBinInfoDTO
 
 class CachedBinInfoMapper : CachedEntityMapper<CachedBinInfoDTO, NetworkBinInfoDTO> {

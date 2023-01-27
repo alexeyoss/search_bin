@@ -29,6 +29,7 @@
             android:layout_marginTop="@dimen/extra_small_margin"
             android:ellipsize="end"
             android:maxLines="2"
+            android:paddingStart="@dimen/extra_small_padding"
             android:textColor="@color/md_theme_light_onPrimaryContainer"
             android:textSize="@dimen/default_text_size"
             tools:text="Body data" />

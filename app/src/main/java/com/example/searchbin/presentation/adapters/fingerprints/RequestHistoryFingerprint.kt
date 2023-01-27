@@ -5,24 +5,23 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchbin.R
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.data.models.BinItem
-import com.example.searchbin.databinding.ItemRequestHistoryFragmentBinding
+import com.example.searchbin.databinding.ItemRequestHistoryBinding
 import com.example.searchbin.presentation.adapters.BaseViewHolder
 import com.example.searchbin.presentation.adapters.BinItemFingerprint
 
 class RequestHistoryFingerprint(
     private val onClickItem: (CachedBinInfoDTO) -> Unit
-) :
-    BinItemFingerprint<ItemRequestHistoryFragmentBinding, CachedBinInfoDTO> {
+) : BinItemFingerprint<ItemRequestHistoryBinding, CachedBinInfoDTO> {
     override fun isRelativeItem(binItem: BinItem): Boolean = binItem is CachedBinInfoDTO
 
-    override fun getLayoutId(): Int = R.layout.item_request_history_fragment
+    override fun getLayoutId(): Int = R.layout.item_request_history
 
     override fun getViewHolder(
         layoutInflater: LayoutInflater, parent: ViewGroup
-    ): BaseViewHolder<ItemRequestHistoryFragmentBinding, CachedBinInfoDTO> {
-        val binding = ItemRequestHistoryFragmentBinding.inflate(layoutInflater, parent, false)
+    ): BaseViewHolder<ItemRequestHistoryBinding, CachedBinInfoDTO> {
+        val binding = ItemRequestHistoryBinding.inflate(layoutInflater, parent, false)
         return CachedBinInfoViewHolder(binding, onClickItem)
     }
 
@@ -44,13 +43,12 @@ class RequestHistoryFingerprint(
 }
 
 class CachedBinInfoViewHolder(
-    binding: ItemRequestHistoryFragmentBinding,
-    val onClickItem: (CachedBinInfoDTO) -> Unit
-) : BaseViewHolder<ItemRequestHistoryFragmentBinding, CachedBinInfoDTO>(binding) {
+    binding: ItemRequestHistoryBinding, val onClickItem: (CachedBinInfoDTO) -> Unit
+) : BaseViewHolder<ItemRequestHistoryBinding, CachedBinInfoDTO>(binding) {
 
     init {
         binding.infoBtn.setOnClickListener {
-            if(bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+            if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
             onClickItem(item)
         }
     }
@@ -61,7 +59,7 @@ class CachedBinInfoViewHolder(
         with(binding) {
             historyItem.apply {
                 title = item.bin.toString()
-                body = item.createdAt.toString() // TODO implement dataTime object into DB
+                body = item.createdAt ?: "-"
             }
 
         }

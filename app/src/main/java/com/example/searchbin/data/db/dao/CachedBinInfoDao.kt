@@ -4,18 +4,22 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import java.util.*
 
 @Dao
 abstract class CachedBinInfoDao {
+
+    private val calendar by lazy {
+        Calendar.getInstance()
+    }
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     abstract fun insert(cachedBinInfo: CachedBinInfoDTO)
 
     fun insertWithTimeStamp(cachedBinInfo: CachedBinInfoDTO) {
         insert(cachedBinInfo.apply {
-            createdAt = System.currentTimeMillis()
+            createdAt = calendar.time.toString()
         })
     }
 

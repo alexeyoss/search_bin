@@ -43,14 +43,14 @@ class OtherInfoViewHolder(
         super.onBind(item)
 
         with(binding) {
-            otherScheme.body = item.scheme.toString()
-            otherType.body = item.type.toString()
-            otherBrand.body = item.brand.toString()
-            otherPrepaid.body = item.prepaid?.publishStringPresenter() ?: "null"
+            otherScheme.body = item.scheme ?: "-"
+            otherType.body = item.type ?: "-"
+            otherBrand.body = item.brand ?: "-"
+            otherPrepaid.body = item.prepaid?.extractYesNoAnswer() ?: "-"
         }
     }
 
-    private fun Boolean.publishStringPresenter(): String {
+    private fun Boolean.extractYesNoAnswer(): String {
         return if (this) "Yes" else "No"
     }
 }

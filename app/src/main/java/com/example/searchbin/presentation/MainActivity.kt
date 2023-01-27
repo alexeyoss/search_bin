@@ -8,13 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentResultListener
 import androidx.lifecycle.LifecycleOwner
 import com.example.searchbin.R
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.databinding.ActivityMainBinding
 import com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment
+import com.example.searchbin.presentation.request_history_fragment.RequestHistoryDetailsBottomSheet
 import com.example.searchbin.presentation.request_history_fragment.RequestHistoryFragment
 import com.example.searchbin.presentation.utils.UiUtil.replaceDataContainer
 import dagger.hilt.android.AndroidEntryPoint
-import timber.log.Timber
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main), Navigator {
@@ -33,10 +33,11 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigator {
     override fun launchScreen(screen: Fragment) {
         when (screen) {
             is RequestHistoryFragment -> replaceDataContainer(screen, true)
-            is EnterBinFragment -> {
-                supportFragmentManager.popBackStack()
-                replaceDataContainer(screen)
-            }
+            is EnterBinFragment -> supportFragmentManager.findFragmentByTag(screen.toString())
+            is RequestHistoryDetailsBottomSheet -> RequestHistoryDetailsBottomSheet().show(
+                supportFragmentManager,
+                null
+            )
         }
     }
 
@@ -44,9 +45,9 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigator {
         onBackPressedDispatcher.onBackPressed()
     }
 
-    override fun <T : Parcelable> publishResult(result: T) {
+    override fun <T : Parcelable> publishResult(data: T) {
         supportFragmentManager.setFragmentResult(
-            result::class.java.name, bundleOf(RESULT_KEY to result)
+            data::class.java.name, bundleOf(RESULT_KEY to data)
         )
     }
 

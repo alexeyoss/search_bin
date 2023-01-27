@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/extra_small_padding"
         android:textColor="@color/md_theme_light_onPrimaryContainer"
-        app:layout_constraintEnd_toStartOf="@id/bank_phone"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/bank_city"
         tools:text="www.jyskebank.dk" />
@@ -45,8 +45,8 @@
         android:padding="@dimen/extra_small_padding"
         android:textColor="@color/md_theme_light_onPrimaryContainer"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/bank_url"
-        app:layout_constraintTop_toBottomOf="@+id/bank_city"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bank_url"
         tools:text="+4589893300" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

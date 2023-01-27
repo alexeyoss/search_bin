@@ -46,12 +46,12 @@ class NumberViewHolder(
     override fun onBind(item: NumberDTO) {
         super.onBind(item)
         with(binding) {
-            numberLength.body = item.length.toString()
-            numberLuhn.body = item.luhn?.publishStringPresenter() ?: "null"
+            numberLength.body = item.length?.toString() ?: "-"
+            numberLuhn.body = item.luhn?.extractYesNoAnswer() ?: "-"
         }
     }
 
-    private fun Boolean.publishStringPresenter(): String {
+    private fun Boolean.extractYesNoAnswer(): String {
         return if (this) "Yes" else "No"
     }
 }

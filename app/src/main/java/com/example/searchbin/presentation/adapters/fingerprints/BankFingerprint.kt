@@ -45,10 +45,10 @@ class BankViewHolder(
         super.onBind(item)
 
         with(binding) {
-            bankName.body = item.name.toString()
-            bankCity.body = item.city.toString()
-            bankUrl.text = item.url
-            bankPhone.text = item.phone
+            bankName.body = item.name ?: "-"
+            bankCity.body = item.city ?: "-"
+            bankUrl.text = item.url ?: "-"
+            bankPhone.text = item.phone ?: "-"
         }
     }
 }

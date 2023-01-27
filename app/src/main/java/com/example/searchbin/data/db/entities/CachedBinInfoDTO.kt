@@ -1,4 +1,4 @@
-package com.example.searchbin.data.entities
+package com.example.searchbin.data.db.entities
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -22,7 +22,7 @@ import javax.annotation.concurrent.Immutable
 data class CachedBinInfoDTO(
     @PrimaryKey @ColumnInfo(name = "bin") var bin: Long,
     @ColumnInfo(name = "response") var response: NetworkBinInfoDTO,
-    @ColumnInfo(name = "created_at") var createdAt: Long? = null
+    @ColumnInfo(name = "created_at") var createdAt: String? = null
 ) : Parcelable, BinItem {
     override fun toList(): List<BinItem> = listOf(this)
 }

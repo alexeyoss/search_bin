@@ -15,7 +15,7 @@ interface Navigator {
     fun goBack()
 
 
-    fun <T : Parcelable> publishResult(result: T)
+    fun <T : Parcelable> publishResult(data: T)
 
     fun <T : Parcelable> listenResult(
         clazz: Class<T>,

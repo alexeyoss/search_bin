@@ -75,6 +75,7 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
     private fun initListeners() {
         val binding = checkNotNull(binding)
 
+
         viewModel.uiStateFlow.collectOnLifecycle(this@EnterBinFragment) { state ->
             when (state) {
                 is CommonUiStates.Success -> enterBinAdapter.submitList(state.data)

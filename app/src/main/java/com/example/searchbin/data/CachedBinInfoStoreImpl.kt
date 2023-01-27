@@ -1,7 +1,7 @@
 package com.example.searchbin.data
 
 import com.example.searchbin.data.db.BinDb
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.data.mappers.CachedBinInfoMapper
 import com.example.searchbin.data.models.NetworkBinInfoDTO
 import com.example.searchbin.di.CoroutinesModule
@@ -40,7 +40,15 @@ constructor(
         }
     }
 
-    override suspend fun getRequestHistory(): List<CachedBinInfoDTO> {
+    override suspend fun isHistoryDataNotEmpty(): Boolean {
+        return withContext(ioDispatcher) {
+            cachedBinInfoDao.getAllBinData().isNotEmpty()
+        }
+    }
+
+
+
+    override suspend fun getHistoryData(): List<CachedBinInfoDTO> {
         return withContext(ioDispatcher) {
             cachedBinInfoDao.getAllBinData()
         }

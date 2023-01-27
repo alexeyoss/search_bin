@@ -6,11 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import androidx.viewbinding.BuildConfig
-import com.example.searchbin.data.db.converters.NetworkBinInfoDTOConverter
-import com.example.searchbin.data.db.dao.CachedBinInfoDao
 import com.example.searchbin.data.db.BinDbConstHolder.DB_NAME
 import com.example.searchbin.data.db.BinDbConstHolder.DB_VERSION
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.converters.NetworkBinInfoDTOConverter
+import com.example.searchbin.data.db.dao.CachedBinInfoDao
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 
 @Database(
     entities = [CachedBinInfoDTO::class], version = DB_VERSION, exportSchema = false

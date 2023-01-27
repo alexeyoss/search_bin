@@ -1,6 +1,6 @@
 package com.example.searchbin.data
 
-import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.data.models.BinItem
 import com.example.searchbin.data.models.NetworkBinInfoDTO.Companion.extractListOfBinItems
 import com.example.searchbin.domain.MainRepository
@@ -38,8 +38,11 @@ class MainRepositoryImpl
 
 
     override suspend fun getRequestHistory(): ResponseStates<List<CachedBinInfoDTO>> {
-        return safeCall {
-            cachedBinInfoStore.getRequestHistory()
+        return if (cachedBinInfoStore.isHistoryDataNotEmpty()) {
+            safeCall { cachedBinInfoStore.getHistoryData() }
+        } else {
+            ErrorState.SuccessNoResult
         }
+
     }
 }
