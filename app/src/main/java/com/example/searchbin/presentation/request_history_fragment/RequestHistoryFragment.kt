@@ -12,6 +12,8 @@ import com.example.searchbin.data.entities.CachedBinInfoDTO
 import com.example.searchbin.databinding.FragmentRequestHistoryBinding
 import com.example.searchbin.presentation.adapters.EnterBinAdapter
 import com.example.searchbin.presentation.adapters.fingerprints.RequestHistoryFingerprint
+import com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment
+import com.example.searchbin.presentation.navigate
 import com.example.searchbin.presentation.utils.CommonSideEffects
 import com.example.searchbin.presentation.utils.CommonUiStates
 import com.example.searchbin.utils.collectOnLifecycle
@@ -29,7 +31,7 @@ class RequestHistoryFragment :
 
     private val fingerprintList by lazy {
         listOf(
-            RequestHistoryFingerprint(::onSavePost)
+            RequestHistoryFingerprint(::onClickItem)
         )
     }
 
@@ -96,8 +98,9 @@ class RequestHistoryFragment :
         }
     }
 
-    private fun onSavePost(cachedBinInfoDTO: CachedBinInfoDTO) {
-        // TODO
+    private fun onClickItem(cachedBinInfoDTO: CachedBinInfoDTO) {
+//        navigate().publishResult(cachedBinInfoDTO)
+        navigate().launchScreen(EnterBinFragment())
     }
 
     private fun isLoading(value: Boolean) {

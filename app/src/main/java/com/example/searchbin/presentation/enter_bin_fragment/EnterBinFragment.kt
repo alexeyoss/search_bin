@@ -9,7 +9,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchbin.R
@@ -19,6 +18,8 @@ import com.example.searchbin.presentation.adapters.fingerprints.BankFingerprint
 import com.example.searchbin.presentation.adapters.fingerprints.CountryFingerprint
 import com.example.searchbin.presentation.adapters.fingerprints.NumberFingerprint
 import com.example.searchbin.presentation.adapters.fingerprints.OtherInfoFingerprint
+import com.example.searchbin.presentation.navigate
+import com.example.searchbin.presentation.request_history_fragment.RequestHistoryFragment
 import com.example.searchbin.presentation.utils.CommonSideEffects
 import com.example.searchbin.presentation.utils.CommonUiStates
 import com.example.searchbin.presentation.utils.UiUtil
@@ -91,7 +92,8 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
                 .debounce(300)
                 .distinctUntilChanged()
                 .filter { !it.isNullOrEmpty() }
-                .map { it.toString() }.onEach { binNumber ->
+                .map { it.toString() }
+                .onEach { binNumber ->
                     viewModel.setEvent(
                         EnterBinFragmentEvents.GetBinInfo(binNumber.toLong())
                     )
@@ -125,7 +127,7 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
             }
 
             binInputLayout.setEndIconOnClickListener {
-
+                navigate().launchScreen(RequestHistoryFragment())
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.example.searchbin.data
 
 import com.example.searchbin.data.entities.CachedBinInfoDTO
-import com.example.searchbin.data.models.BinItem
 import com.example.searchbin.data.models.NetworkBinInfoDTO
 
 interface CachedBinInfoStore {
@@ -11,7 +10,8 @@ interface CachedBinInfoStore {
         binNumber: Long
     )
 
-    suspend fun getBinInfo(binNumber: Long): List<CachedBinInfoDTO>
+    suspend fun isCached(binNumber: Long): Boolean
+    suspend fun getBinData(binNumber: Long): CachedBinInfoDTO
 
     suspend fun getRequestHistory(): List<CachedBinInfoDTO>
 }

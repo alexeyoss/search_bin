@@ -20,7 +20,10 @@ abstract class CachedBinInfoDao {
     }
 
     @Query("SELECT * FROM cached_bin_info WHERE bin = :binNumber")
-    abstract fun getBinData(binNumber: Long): List<CachedBinInfoDTO>
+    abstract fun isCached(binNumber: Long): List<CachedBinInfoDTO>
+
+    @Query("SELECT * FROM cached_bin_info WHERE bin = :binNumber")
+    abstract fun getBinData(binNumber: Long): CachedBinInfoDTO
 
     @Query("SELECT * FROM cached_bin_info")
     abstract fun getAllBinData(): List<CachedBinInfoDTO>

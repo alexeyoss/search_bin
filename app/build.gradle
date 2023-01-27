@@ -4,11 +4,8 @@ plugins {
     id "kotlin-parcelize"
     id "com.google.dagger.hilt.android"
     id "kotlin-kapt"
-    id 'androidx.navigation.safeargs'
+//    id 'androidx.navigation.safeargs'
 }
-
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
 android {
     namespace "com.example.searchbin"
@@ -25,7 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"" + localProperties["base_url"] + "\"")
+        buildConfigField("String", "BASE_URL", "\"https://lookup.binlist.net/\"")
     }
 
     buildTypes {
@@ -74,7 +71,7 @@ dependencies {
     // Room
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-    implementation "androidx.room:room-ktx:$room_version"
+//    implementation "androidx.room:room-ktx:$room_version"
     // Hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
@@ -83,7 +80,7 @@ dependencies {
     // RecyclerView
     implementation "androidx.recyclerview:recyclerview:$recyclerview_verion"
     // Navigator component
-    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
-    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
+//    implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+//    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
 }

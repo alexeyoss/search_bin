@@ -3,7 +3,6 @@ package com.example.searchbin.data
 import com.example.searchbin.data.db.BinDb
 import com.example.searchbin.data.entities.CachedBinInfoDTO
 import com.example.searchbin.data.mappers.CachedBinInfoMapper
-import com.example.searchbin.data.models.BinItem
 import com.example.searchbin.data.models.NetworkBinInfoDTO
 import com.example.searchbin.di.CoroutinesModule
 import kotlinx.coroutines.CoroutineDispatcher
@@ -29,7 +28,13 @@ constructor(
         cachedBinInfoDao.insertWithTimeStamp(cachedBinInfo)
     }
 
-    override suspend fun getBinInfo(binNumber: Long): List<CachedBinInfoDTO> {
+    override suspend fun isCached(binNumber: Long): Boolean {
+        return withContext(ioDispatcher) {
+            cachedBinInfoDao.isCached(binNumber).isNotEmpty()
+        }
+    }
+
+    override suspend fun getBinData(binNumber: Long): CachedBinInfoDTO {
         return withContext(ioDispatcher) {
             cachedBinInfoDao.getBinData(binNumber)
         }
