@@ -1,8 +1,8 @@
 package com.example.searchbin.domain
 
-import com.example.searchbin.data.models.BinItem
 import com.example.searchbin.data.ResponseStates
 import com.example.searchbin.data.entities.CachedBinInfoDTO
+import com.example.searchbin.data.models.BinItem
 
 interface MainRepository {
 

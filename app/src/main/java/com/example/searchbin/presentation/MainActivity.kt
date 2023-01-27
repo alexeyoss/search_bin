@@ -5,15 +5,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import com.example.searchbin.R
 import com.example.searchbin.databinding.ActivityMainBinding
-import com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     private val navController by lazy {
-        val navHost = supportFragmentManager.findFragmentById(R.id.dataContainer) as NavHostFragment
-        navHost.navController
+        (supportFragmentManager.findFragmentById(R.id.dataContainer) as NavHostFragment).navController
     }
 
     private val binding by lazy(LazyThreadSafetyMode.NONE) {

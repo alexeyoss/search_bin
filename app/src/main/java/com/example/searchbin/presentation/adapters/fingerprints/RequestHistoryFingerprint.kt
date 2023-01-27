@@ -50,7 +50,7 @@ class CachedBinInfoViewHolder(
 
     init {
         binding.infoBtn.setOnClickListener {
-            if(bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
+            if (bindingAdapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener
             onClickItem(item)
         }
     }
