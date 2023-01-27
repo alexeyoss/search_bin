@@ -7,9 +7,6 @@ plugins {
     id 'androidx.navigation.safeargs'
 }
 
-def localProperties = new Properties()
-localProperties.load(new FileInputStream(rootProject.file("local.properties")))
-
 android {
     namespace "com.example.searchbin"
     compileSdk 33
@@ -25,7 +22,7 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        buildConfigField("String", "BASE_URL", "\"" + localProperties["base_url"] + "\"")
+        buildConfigField("String", "BASE_URL", "\"https://lookup.binlist.net/\"")
     }
 
     buildTypes {
