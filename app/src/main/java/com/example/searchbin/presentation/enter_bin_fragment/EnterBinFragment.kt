@@ -1,5 +1,7 @@
 package com.example.searchbin.presentation.enter_bin_fragment
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -39,7 +41,10 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
 
     private val fingerprintList by lazy {
         listOf(
-            BankFingerprint(), CountryFingerprint(), NumberFingerprint(), OtherInfoFingerprint()
+            BankFingerprint(::onClickItem),
+            CountryFingerprint(::onClickItem),
+            NumberFingerprint(),
+            OtherInfoFingerprint()
         )
     }
 
@@ -79,26 +84,22 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
         viewModel.uiStateFlow.collectOnLifecycle(this@EnterBinFragment) { state ->
             when (state) {
                 is CommonUiStates.Success -> enterBinAdapter.submitList(state.data)
-                is CommonUiStates.SuccessNoResult -> Unit
+                is CommonUiStates.SuccessNoResult -> enterBinAdapter.submitList(emptyList())
                 is CommonUiStates.Initial -> Unit
                 is CommonUiStates.Error -> Unit
-                is CommonUiStates.Loading -> enterBinAdapter.submitList(emptyList())
+                is CommonUiStates.Loading -> Unit
             }
         }
 
         with(binding) {
 
-            binInputEditText.textChanges()
-                // TODO debounce provoke UI inconsistency cause we can delete text quickly
-                .debounce(300)
-                .distinctUntilChanged()
-                .filter { !it.isNullOrEmpty() }
-                .map { it.toString() }
-                .onEach { binNumber ->
-                    viewModel.setEvent(
-                        EnterBinFragmentEvents.GetBinInfo(binNumber.toLong())
-                    )
-                }.launchIn(lifecycleScope)
+            binInputEditText.textChanges().debounce(300).distinctUntilChanged().filter {
+                !it.isNullOrEmpty().also { enterBinAdapter.submitList(emptyList()) }
+            }.map { it.toString() }.onEach { binNumber ->
+                viewModel.setEvent(
+                    EnterBinFragmentEvents.GetBinInfo(binNumber.toLong())
+                )
+            }.launchIn(lifecycleScope)
 
 
             viewModel.sideEffectsFlow.collectOnLifecycle(this@EnterBinFragment) { sideEffect ->
@@ -159,12 +160,45 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
         }
     }
 
+    private fun onClickItem(onClickItem: EnterBinItemClick) {
+        when (onClickItem) {
+            is EnterBinItemClick.URL -> startImplicitIntent(
+                Intent.ACTION_VIEW,
+                onClickItem.data
+            )
+            is EnterBinItemClick.PHONE -> startImplicitIntent(
+                Intent.ACTION_DIAL,
+                onClickItem.data
+            )
+            is EnterBinItemClick.LOCATION -> startImplicitIntent(
+                Intent.ACTION_VIEW,
+                onClickItem.data
+            )
+        }
+    }
+
+    private fun startImplicitIntent(
+        intentAction: String,
+        intentData: String
+    ) {
+        val intent = Intent(intentAction).apply {
+            data = Uri.parse(intentData)
+        }
+        startActivity(intent)
+    }
+
+
     override fun onDestroyView() {
         super.onDestroyView()
         val binding = checkNotNull(binding)
 
-        binding.binInputLayout.setEndIconOnClickListener(null)
-        binding.recycleView.clearOnScrollListeners()
+        with(binding) {
+            binInputLayout.setEndIconOnClickListener(null)
+            recycleView.clearOnScrollListeners()
+            recycleView.adapter = null
+        }
+
         this.binding = null
     }
+
 }

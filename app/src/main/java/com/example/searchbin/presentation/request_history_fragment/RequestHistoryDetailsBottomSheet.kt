@@ -16,7 +16,7 @@ class RequestHistoryDetailsBottomSheet :
 
     private var binding: RequestHistoryDetailsLayoutBinding? = null
 
-    private val gson by lazy {
+    private val gson by lazy(LazyThreadSafetyMode.NONE) {
         Gson().newBuilder().setPrettyPrinting().create()
     }
 

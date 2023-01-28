@@ -10,8 +10,8 @@ data class CountryDTO(
     val name: String?,
     val emoji: String?,
     val currency: String?,
-    val latitude: Long?,
-    val longitude: Long?
+    val latitude: Double?,
+    val longitude: Double?
 ) : Parcelable, BinItem {
     override fun toList(): List<BinItem> = listOf(this)
 }

@@ -47,7 +47,6 @@ constructor(
     }
 
 
-
     override suspend fun getHistoryData(): List<CachedBinInfoDTO> {
         return withContext(ioDispatcher) {
             cachedBinInfoDao.getAllBinData()

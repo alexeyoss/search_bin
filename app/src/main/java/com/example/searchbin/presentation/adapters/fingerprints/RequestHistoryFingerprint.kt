@@ -43,7 +43,8 @@ class RequestHistoryFingerprint(
 }
 
 class CachedBinInfoViewHolder(
-    binding: ItemRequestHistoryBinding, val onClickItem: (CachedBinInfoDTO) -> Unit
+    binding: ItemRequestHistoryBinding,
+    val onClickItem: (CachedBinInfoDTO) -> Unit
 ) : BaseViewHolder<ItemRequestHistoryBinding, CachedBinInfoDTO>(binding) {
 
     init {

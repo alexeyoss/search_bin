@@ -29,7 +29,7 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
 
     private val fingerprintList by lazy {
         listOf(
-            RequestHistoryFingerprint(::onClickItem)
+            RequestHistoryFingerprint(::onClickInfoButton)
         )
     }
 
@@ -61,9 +61,9 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
             when (state) {
                 is CommonUiStates.Error -> Unit
                 is CommonUiStates.Initial -> Unit
-                is CommonUiStates.Loading -> historyAdapter.submitList(emptyList())
+                is CommonUiStates.Loading -> Unit
                 is CommonUiStates.Success -> historyAdapter.submitList(state.data)
-                is CommonUiStates.SuccessNoResult -> Unit
+                is CommonUiStates.SuccessNoResult -> historyAdapter.submitList(emptyList())
             }
         }
 
@@ -71,10 +71,8 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
         viewModel.sideEffectsFlow.collectOnLifecycle(this@RequestHistoryFragment) { sideEffect ->
             when (sideEffect) {
                 is CommonSideEffects.Initial -> Unit
-                is CommonSideEffects.Loading -> isLoading(true)
+                is CommonSideEffects.Loading -> Unit
                 is CommonSideEffects.NoSearchResult -> {
-                    isLoading(false)
-
                     Snackbar.make(
                         binding.root,
                         getString(R.string.noResult_snackbar_text),
@@ -82,13 +80,11 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
                     ).show()
                 }
                 is CommonSideEffects.ShowError -> {
-                    isLoading(false)
-
                     Snackbar.make(
                         binding.root, getString(R.string.error_snackbar_text), Snackbar.LENGTH_SHORT
                     ).show()
                 }
-                is CommonSideEffects.ShowResult -> isLoading(false)
+                is CommonSideEffects.ShowResult -> Unit
             }
         }
 
@@ -97,22 +93,9 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
         }
     }
 
-    private fun onClickItem(cachedBinInfoDTO: CachedBinInfoDTO) {
+    private fun onClickInfoButton(cachedBinInfoDTO: CachedBinInfoDTO) {
         navigate().launchScreen(RequestHistoryDetailsBottomSheet())
         navigate().publishResult(cachedBinInfoDTO)
-    }
-
-    private fun isLoading(value: Boolean) {
-        val binding = checkNotNull(binding)
-        with(binding) {
-            if (value) {
-                progressBar.visibility = View.VISIBLE
-                recycleView.visibility = View.GONE
-            } else {
-                progressBar.visibility = View.GONE
-                recycleView.visibility = View.VISIBLE
-            }
-        }
     }
 
     private fun initRecyclerView() {
@@ -130,6 +113,7 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
         super.onDestroyView()
         val binding = checkNotNull(binding)
 
+        binding.recycleView.adapter = null
         binding.backBtn.setOnClickListener(null)
         this.binding = null
     }
