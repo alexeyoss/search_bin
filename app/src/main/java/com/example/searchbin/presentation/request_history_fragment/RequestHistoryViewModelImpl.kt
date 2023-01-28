@@ -1,5 +1,7 @@
 package com.example.searchbin.presentation.request_history_fragment
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.searchbin.di.CoroutinesModule
@@ -34,6 +36,9 @@ class RequestHistoryViewModelImpl
 
     private val _uiStateFlow = MutableStateFlow<CommonUiStates>(CommonUiStates.Initial)
     override val uiStateFlow = _uiStateFlow.asStateFlow()
+
+    private val _lastState = MutableLiveData<CommonUiStates>()
+    override val lastState: LiveData<CommonUiStates> = _lastState
 
 
     override fun setEvent(event: RequestHistoryEvents) {

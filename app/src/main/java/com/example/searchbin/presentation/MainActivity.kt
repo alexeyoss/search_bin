@@ -2,6 +2,7 @@ package com.example.searchbin.presentation
 
 import android.os.Bundle
 import android.os.Parcelable
+import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -22,22 +23,30 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigator {
     private val binding by lazy(LazyThreadSafetyMode.NONE) {
         ActivityMainBinding.inflate(layoutInflater)
     }
+    private val currentFragment: Fragment?
+        get() = supportFragmentManager.findFragmentById(R.id.dataContainer)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        replaceDataContainer(EnterBinFragment())
+        if (savedInstanceState != null) {
+            supportFragmentManager.getFragment(savedInstanceState, RESTORE_KEY)
+        } else {
+            replaceDataContainer(EnterBinFragment())
+        }
+
     }
 
     override fun launchScreen(screen: Fragment) {
         when (screen) {
-            is RequestHistoryFragment -> replaceDataContainer(screen, true)
-            is EnterBinFragment -> supportFragmentManager.findFragmentByTag(screen.toString())
-            is RequestHistoryDetailsBottomSheet -> RequestHistoryDetailsBottomSheet().show(
-                supportFragmentManager,
-                null
-            )
+            is RequestHistoryFragment -> replaceDataContainer(screen)
+            is EnterBinFragment -> replaceDataContainer(screen)
+            is RequestHistoryDetailsBottomSheet ->
+                RequestHistoryDetailsBottomSheet().show(
+                    supportFragmentManager, null
+                )
+
         }
     }
 
@@ -66,8 +75,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main), Navigator {
             })
     }
 
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        super.onSaveInstanceState(outState, outPersistentState)
+        supportFragmentManager.putFragment(outState, RESTORE_KEY, currentFragment!!)
+    }
+
     companion object {
         @JvmStatic
         private val RESULT_KEY = "RESULT_KEY"
+
+        @JvmStatic
+        val RESTORE_KEY = "RESTORE_KEY"
     }
 }

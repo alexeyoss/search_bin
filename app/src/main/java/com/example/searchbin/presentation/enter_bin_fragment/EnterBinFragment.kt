@@ -72,8 +72,20 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val binding = checkNotNull(binding)
+
+        if (savedInstanceState != null) {
+            initRecyclerView()
+            initListeners()
+
+            savedInstanceState.getString(RESTORE_KEY)?.let { lastBin ->
+                binding.binInputEditText.setText(lastBin)
+                viewModel.setEvent(EnterBinFragmentEvents.GetBinInfo(lastBin))
+            }
+        }
         initRecyclerView()
         initListeners()
+
     }
 
     @OptIn(ExperimentalCoroutinesApi::class, FlowPreview::class)
@@ -93,13 +105,15 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
 
         with(binding) {
 
-            binInputEditText.textChanges().debounce(300).distinctUntilChanged().filter {
-                !it.isNullOrEmpty().also { enterBinAdapter.submitList(emptyList()) }
-            }.map { it.toString() }.onEach { binNumber ->
-                viewModel.setEvent(
-                    EnterBinFragmentEvents.GetBinInfo(binNumber.toLong())
-                )
-            }.launchIn(lifecycleScope)
+            binInputEditText.textChanges()
+                .debounce(INPUT_DEBOUNCE)
+                .filter {
+                    !it.isNullOrEmpty()
+                }
+                .map { it.toString() }
+                .onEach { binNumber ->
+                    viewModel.setEvent(EnterBinFragmentEvents.GetBinInfo(binNumber))
+                }.launchIn(lifecycleScope)
 
 
             viewModel.sideEffectsFlow.collectOnLifecycle(this@EnterBinFragment) { sideEffect ->
@@ -187,6 +201,15 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
         startActivity(intent)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val binding = checkNotNull(binding)
+        val currentInputText = binding.binInputEditText.text.toString()
+
+        if (currentInputText.isNotEmpty()) {
+            outState.putString(RESTORE_KEY, currentInputText)
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
@@ -199,6 +222,14 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
         }
 
         this.binding = null
+    }
+
+    companion object {
+        @JvmStatic
+        val RESTORE_KEY = "RESTORE_KEY"
+
+        @JvmStatic
+        val INPUT_DEBOUNCE: Long = 400L
     }
 
 }

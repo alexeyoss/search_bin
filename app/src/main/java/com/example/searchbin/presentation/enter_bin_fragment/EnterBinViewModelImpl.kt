@@ -41,9 +41,9 @@ class EnterBinViewModelImpl
         }
     }
 
-    private fun getBinItems(binNumber: Long) {
+    private fun getBinItems(binNumber: String) {
         viewModelScope.launch(ioDispatcher + exceptionHandler) {
-            getBinInfoUseCase.invoke(binNumber).collect { uiState ->
+            getBinInfoUseCase.invoke(binNumber.toLong()).collect { uiState ->
                 when (uiState) {
                     is CommonUiStates.Success -> {
                         _sideEffectsFlow.emit(CommonSideEffects.ShowResult)

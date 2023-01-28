@@ -12,6 +12,7 @@ import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.databinding.RequestHistoryLayoutBinding
 import com.example.searchbin.presentation.adapters.EnterBinAdapter
 import com.example.searchbin.presentation.adapters.fingerprints.RequestHistoryFingerprint
+import com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment
 import com.example.searchbin.presentation.navigate
 import com.example.searchbin.presentation.utils.CommonSideEffects
 import com.example.searchbin.presentation.utils.CommonUiStates
@@ -24,8 +25,9 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
 
 
     private var binding: RequestHistoryLayoutBinding? = null
-
     private val viewModel by viewModels<RequestHistoryViewModelImpl>()
+
+    private var lastBottomSheetData: CachedBinInfoDTO? = null
 
     private val fingerprintList by lazy {
         listOf(
@@ -49,9 +51,21 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        initRecyclerView()
-        initListeners()
-        viewModel.setEvent(RequestHistoryEvents.GetRequestHistory)
+        if (savedInstanceState != null) {
+            initListeners()
+            initRecyclerView()
+            viewModel.setEvent(RequestHistoryEvents.GetRequestHistory)
+
+            /** Deprecated approach is used cause API 33 not so widespread from users*/
+            savedInstanceState.getParcelable<CachedBinInfoDTO>(RESTORE_KEY)?.also {
+//                onClickInfoButton(it)
+            }
+        } else {
+            initRecyclerView()
+            initListeners()
+            viewModel.setEvent(RequestHistoryEvents.GetRequestHistory)
+        }
+
     }
 
     private fun initListeners() {
@@ -89,11 +103,13 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
         }
 
         binding.backBtn.setOnClickListener {
-            navigate().goBack()
+            navigate().launchScreen(EnterBinFragment())
         }
     }
 
     private fun onClickInfoButton(cachedBinInfoDTO: CachedBinInfoDTO) {
+        lastBottomSheetData = cachedBinInfoDTO
+
         navigate().launchScreen(RequestHistoryDetailsBottomSheet())
         navigate().publishResult(cachedBinInfoDTO)
     }
@@ -109,6 +125,13 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (lastBottomSheetData != null) {
+            outState.putParcelable(RESTORE_KEY, lastBottomSheetData)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         val binding = checkNotNull(binding)
@@ -116,5 +139,10 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
         binding.recycleView.adapter = null
         binding.backBtn.setOnClickListener(null)
         this.binding = null
+    }
+
+    companion object {
+        @JvmStatic
+        val RESTORE_KEY = "RESTORE_KEY"
     }
 }
