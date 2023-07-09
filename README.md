@@ -8,7 +8,7 @@ Implementation of the application using the [BINLIST.NET API](https://binlist.ne
 
 ### Architecture
 
-* MVI - [Guide to app architecture](https://developer.android.com/jetpack/guide)
+* MVVM - [Guide to app architecture](https://developer.android.com/jetpack/guide)
 * [Kotlin](https://kotlinlang.org/) 100%, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines),
   [Flow](https://kotlinlang.org/docs/flow.html)
 
