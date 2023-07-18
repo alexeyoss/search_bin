@@ -6,8 +6,8 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 import com.example.searchbin.data.db.BinDbConstHolder.DB_CACHED_BIN_INFO_TABLE_NAME
-import com.example.searchbin.data.models.BinItem
-import com.example.searchbin.data.models.NetworkBinInfoDTO
+import com.example.searchbin.data.network.models.BinItem
+import com.example.searchbin.data.network.models.NetworkBinInfoDTO
 import kotlinx.parcelize.Parcelize
 import javax.annotation.concurrent.Immutable
 

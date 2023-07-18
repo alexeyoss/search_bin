@@ -1,7 +1,7 @@
 package com.example.searchbin.data
 
 import com.example.searchbin.data.db.entities.CachedBinInfoDTO
-import com.example.searchbin.data.models.NetworkBinInfoDTO
+import com.example.searchbin.data.network.models.NetworkBinInfoDTO
 
 interface CachedBinInfoStore {
 

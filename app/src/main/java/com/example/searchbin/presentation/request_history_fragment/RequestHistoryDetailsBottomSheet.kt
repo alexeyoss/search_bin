@@ -4,16 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.example.searchbin.R
 import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.databinding.RequestHistoryDetailsLayoutBinding
-import com.example.searchbin.presentation.navigate
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-class RequestHistoryDetailsBottomSheet :
-    BottomSheetDialogFragment(R.layout.request_history_details_layout) {
+class RequestHistoryDetailsBottomSheet : BottomSheetDialogFragment(R.layout.request_history_details_layout) {
 
     private var binding: RequestHistoryDetailsLayoutBinding? = null
 
@@ -21,7 +24,8 @@ class RequestHistoryDetailsBottomSheet :
         Gson().newBuilder().setPrettyPrinting().create()
     }
 
-    private var lastData: CachedBinInfoDTO? = null
+    private val args by navArgs<RequestHistoryDetailsBottomSheetArgs>()
+
 
     override fun getTheme(): Int = R.style.RequestHistoryBottomSheetDialogTheme
     override fun onStart() {
@@ -43,46 +47,38 @@ class RequestHistoryDetailsBottomSheet :
             initListeners()
             /** Deprecated approach is used cause API 33 not so widespread from users*/
             savedInstanceState.getParcelable<CachedBinInfoDTO>(RESTORE_KEY)?.also {
-                lastData = it
                 initViews(it)
             }
         } else {
+            initViews(args.cachedBinInfoDTO)
             initListeners()
         }
     }
 
     private fun initListeners() {
         val binding = checkNotNull(binding)
-        with(binding) {
-            navigate().listenResult(
-                CachedBinInfoDTO::class.java, this@RequestHistoryDetailsBottomSheet
-            ) {
-                initViews(it)
-                lastData = it
-            }
-
-
-            closeButton.setOnClickListener { dismiss() }
-        }
-
-
+        binding.closeButton.setOnClickListener { dismiss() }
     }
 
     private fun initViews(cachedBinInfoDTO: CachedBinInfoDTO) {
         val binding = checkNotNull(binding)
         with(binding) {
-            requestDetail.text = gson.toJson(cachedBinInfoDTO)
-            title.text = String.format(
-                getString(R.string.history_bin_details_text), cachedBinInfoDTO.bin
-            )
+
+            lifecycleScope.launch(Dispatchers.Main) {
+                val formattedJson = withContext(Dispatchers.IO) { gson.toJson(cachedBinInfoDTO) }
+                val formattedText = withContext(Dispatchers.IO) {
+                    String.format(getString(R.string.history_bin_details_text), cachedBinInfoDTO.bin)
+                }
+
+                requestDetail.text = formattedJson
+                title.text = formattedText
+            }
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        if (lastData != null) {
-            outState.putParcelable(RESTORE_KEY, lastData)
-        }
+        outState.putParcelable(RESTORE_KEY, args.cachedBinInfoDTO)
     }
 
     override fun onDestroyView() {

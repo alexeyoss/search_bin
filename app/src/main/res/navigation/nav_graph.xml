@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/enterBinFragment">
+
+    <fragment
+        android:id="@+id/enterBinFragment"
+        android:name="com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment"
+        android:label="enter_bin_fragment_layout"
+        tools:layout="@layout/enter_bin_fragment_layout" >
+        <action
+            android:id="@+id/action_enterBinFragment_to_requestHistoryFragment"
+            app:destination="@id/requestHistoryFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/requestHistoryFragment"
+        android:name="com.example.searchbin.presentation.request_history_fragment.RequestHistoryFragment"
+        android:label="request_history_layout"
+        tools:layout="@layout/request_history_layout" >
+        <action
+            android:id="@+id/action_requestHistoryFragment_to_enterBinFragment"
+            app:destination="@id/enterBinFragment" />
+        <action
+            android:id="@+id/action_requestHistoryFragment_to_requestHistoryDetailsBottomSheet"
+            app:destination="@id/requestHistoryDetailsBottomSheet" />
+    </fragment>
+    <dialog
+        android:id="@+id/requestHistoryDetailsBottomSheet"
+        android:name="com.example.searchbin.presentation.request_history_fragment.RequestHistoryDetailsBottomSheet"
+        android:label="RequestHistoryDetailsBottomSheet" >
+        <action
+            android:id="@+id/action_requestHistoryDetailsBottomSheet_to_requestHistoryFragment"
+            app:destination="@id/requestHistoryFragment" />
+        <argument
+            android:name="cachedBinInfoDTO"
+            app:argType="com.example.searchbin.data.db.entities.CachedBinInfoDTO" />
+    </dialog>
+</navigation>

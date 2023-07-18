@@ -3,7 +3,7 @@ package com.example.searchbin.data
 import com.example.searchbin.data.db.BinDb
 import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.data.mappers.CachedBinInfoMapper
-import com.example.searchbin.data.models.NetworkBinInfoDTO
+import com.example.searchbin.data.network.models.NetworkBinInfoDTO
 import com.example.searchbin.di.CoroutinesModule
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext

@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Fetch info about BIN number from Internet
+ * */
 class GetBinItemsUseCase
 @Inject constructor(
     private val mainRepository: MainRepository,

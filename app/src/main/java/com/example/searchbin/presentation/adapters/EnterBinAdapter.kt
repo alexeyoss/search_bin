@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
 import androidx.viewbinding.ViewBinding
-import com.example.searchbin.data.models.BinItem
+import com.example.searchbin.data.network.models.BinItem
 
 class EnterBinAdapter(
     private val fingerprints: List<BinItemFingerprint<*, *>>
@@ -16,7 +16,7 @@ class EnterBinAdapter(
         viewType: Int
     ): BaseViewHolder<ViewBinding, BinItem> {
         val inflater = LayoutInflater.from(parent.context)
-        return fingerprints.find { it.getLayoutId() == viewType }
+        return fingerprints.find { itemFingerprint -> itemFingerprint.getLayoutId() == viewType }
             ?.getViewHolder(inflater, parent)
             ?.let { it as BaseViewHolder<ViewBinding, BinItem> }
             ?: throw IllegalArgumentException("View type not found: $viewType")

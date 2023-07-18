@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchbin.R
@@ -20,8 +21,6 @@ import com.example.searchbin.presentation.adapters.fingerprints.BankFingerprint
 import com.example.searchbin.presentation.adapters.fingerprints.CountryFingerprint
 import com.example.searchbin.presentation.adapters.fingerprints.NumberFingerprint
 import com.example.searchbin.presentation.adapters.fingerprints.OtherInfoFingerprint
-import com.example.searchbin.presentation.navigate
-import com.example.searchbin.presentation.request_history_fragment.RequestHistoryFragment
 import com.example.searchbin.presentation.utils.CommonSideEffects
 import com.example.searchbin.presentation.utils.CommonUiStates
 import com.example.searchbin.presentation.utils.UiUtil
@@ -31,7 +30,11 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.debounce
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
 class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
@@ -52,6 +55,7 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
         EnterBinAdapter(fingerprintList)
     }
 
+    private val viewPool = RecyclerView.RecycledViewPool()
 
     private val onScrollListener = object : RecyclerView.OnScrollListener() {
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {}
@@ -105,15 +109,11 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
 
         with(binding) {
 
-            binInputEditText.textChanges()
-                .debounce(INPUT_DEBOUNCE)
-                .filter {
-                    !it.isNullOrEmpty()
-                }
-                .map { it.toString() }
-                .onEach { binNumber ->
-                    viewModel.setEvent(EnterBinFragmentEvents.GetBinInfo(binNumber))
-                }.launchIn(lifecycleScope)
+            binInputEditText.textChanges().debounce(INPUT_DEBOUNCE).filter {
+                !it.isNullOrEmpty()
+            }.map { it.toString() }.onEach { binNumber ->
+                viewModel.setEvent(EnterBinFragmentEvents.GetBinInfo(binNumber))
+            }.launchIn(lifecycleScope)
 
 
             viewModel.sideEffectsFlow.collectOnLifecycle(this@EnterBinFragment) { sideEffect ->
@@ -123,27 +123,25 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
                         isLoading(false)
 
                         Snackbar.make(
-                            binding.root,
-                            getString(R.string.noResult_snackbar_text),
-                            Snackbar.LENGTH_SHORT
+                            binding.root, getString(R.string.noResult_snackbar_text), Snackbar.LENGTH_SHORT
                         ).show()
                     }
+
                     CommonSideEffects.ShowError -> {
                         isLoading(false)
 
                         Snackbar.make(
-                            binding.root,
-                            getString(R.string.error_snackbar_text),
-                            Snackbar.LENGTH_SHORT
+                            binding.root, getString(R.string.error_snackbar_text), Snackbar.LENGTH_SHORT
                         ).show()
                     }
+
                     CommonSideEffects.Loading -> isLoading(true)
                     CommonSideEffects.ShowResult -> isLoading(false)
                 }
             }
 
             binInputLayout.setEndIconOnClickListener {
-                navigate().launchScreen(RequestHistoryFragment())
+                findNavController().navigate(EnterBinFragmentDirections.actionEnterBinFragmentToRequestHistoryFragment())
             }
         }
     }
@@ -166,6 +164,8 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
         with(binding) {
             recycleView.apply {
                 setHasFixedSize(true)
+                setRecycledViewPool(viewPool)
+
                 layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
                 adapter = enterBinAdapter
                 itemAnimator = null
@@ -177,23 +177,21 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
     private fun onClickItem(onClickItem: EnterBinItemClick) {
         when (onClickItem) {
             is EnterBinItemClick.URL -> startImplicitIntent(
-                Intent.ACTION_VIEW,
-                onClickItem.data
+                Intent.ACTION_VIEW, onClickItem.data
             )
+
             is EnterBinItemClick.PHONE -> startImplicitIntent(
-                Intent.ACTION_DIAL,
-                onClickItem.data
+                Intent.ACTION_DIAL, onClickItem.data
             )
+
             is EnterBinItemClick.LOCATION -> startImplicitIntent(
-                Intent.ACTION_VIEW,
-                onClickItem.data
+                Intent.ACTION_VIEW, onClickItem.data
             )
         }
     }
 
     private fun startImplicitIntent(
-        intentAction: String,
-        intentData: String
+        intentAction: String, intentData: String
     ) {
         val intent = Intent(intentAction).apply {
             data = Uri.parse(intentData)
@@ -203,6 +201,7 @@ class EnterBinFragment : Fragment(R.layout.enter_bin_fragment_layout) {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        /** DEBUG cause the null value was returned */
         val binding = checkNotNull(binding)
         val currentInputText = binding.binInputEditText.text.toString()
 

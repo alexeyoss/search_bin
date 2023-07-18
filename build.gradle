@@ -1,6 +1,10 @@
 buildscript {
 
     ext {
+        /* Base settings */
+        targetAndroidSdk = 33
+        minAndroidSdk = 24
+
         kotlin_version = '1.8.0-RC2'
         coroutines_version = "1.6.4"
         okhttp3_version = "4.10.0"
@@ -10,11 +14,15 @@ buildscript {
         hilt_version = "2.44.2"
         recyclerview_verion = "1.2.1"
         fragmentEtx_version = "1.5.5"
+        nav_version = "2.3.0"
+        rx_version = "3.0.1"
     }
 
     dependencies {
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.22'
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+
     }
 
 }

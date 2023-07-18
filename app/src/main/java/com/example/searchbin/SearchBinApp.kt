@@ -6,7 +6,6 @@ import timber.log.Timber
 
 @HiltAndroidApp
 class SearchBinApp : Application() {
-
     override fun onCreate() {
         super.onCreate()
         setDebugLogging()

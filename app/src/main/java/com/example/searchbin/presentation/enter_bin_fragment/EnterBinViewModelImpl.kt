@@ -43,21 +43,24 @@ class EnterBinViewModelImpl
 
     private fun getBinItems(binNumber: String) {
         viewModelScope.launch(ioDispatcher + exceptionHandler) {
-            getBinInfoUseCase.invoke(binNumber.toLong()).collect { uiState ->
-                when (uiState) {
-                    is CommonUiStates.Success -> {
-                        _sideEffectsFlow.emit(CommonSideEffects.ShowResult)
-                        _uiStateFlow.emit(uiState)
+            getBinInfoUseCase.invoke(binNumber.toLong())
+                .collect { uiState ->
+                    when (uiState) {
+                        is CommonUiStates.Success -> {
+                            _sideEffectsFlow.emit(CommonSideEffects.ShowResult)
+                            _uiStateFlow.emit(uiState)
+                        }
+
+                        is CommonUiStates.Loading -> {
+                            _sideEffectsFlow.emit(CommonSideEffects.Loading)
+                            _uiStateFlow.emit(CommonUiStates.Loading)
+                        }
+
+                        is CommonUiStates.SuccessNoResult -> _sideEffectsFlow.emit(CommonSideEffects.NoSearchResult)
+                        is CommonUiStates.Error -> _sideEffectsFlow.emit(CommonSideEffects.ShowError)
+                        is CommonUiStates.Initial -> Unit
                     }
-                    is CommonUiStates.Loading -> {
-                        _sideEffectsFlow.emit(CommonSideEffects.Loading)
-                        _uiStateFlow.emit(CommonUiStates.Loading)
-                    }
-                    is CommonUiStates.SuccessNoResult -> _sideEffectsFlow.emit(CommonSideEffects.NoSearchResult)
-                    is CommonUiStates.Error -> _sideEffectsFlow.emit(CommonSideEffects.ShowError)
-                    is CommonUiStates.Initial -> Unit
                 }
-            }
         }
     }
 

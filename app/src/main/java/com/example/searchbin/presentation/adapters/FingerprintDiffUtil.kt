@@ -1,7 +1,7 @@
 package com.example.searchbin.presentation.adapters
 
 import androidx.recyclerview.widget.DiffUtil
-import com.example.searchbin.data.models.BinItem
+import com.example.searchbin.data.network.models.BinItem
 
 
 class FingerprintDiffUtil(

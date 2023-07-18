@@ -1,8 +1,12 @@
 package com.example.searchbin.data
 
 import com.example.searchbin.data.db.entities.CachedBinInfoDTO
-import com.example.searchbin.data.models.BinItem
-import com.example.searchbin.data.models.NetworkBinInfoDTO.Companion.extractListOfBinItems
+import com.example.searchbin.data.network.models.BinItem
+import com.example.searchbin.data.network.models.NetworkBinInfoDTO.Companion.extractListOfBinItems
+import com.example.searchbin.data.network.ApiService
+import com.example.searchbin.data.network.ErrorState
+import com.example.searchbin.data.network.ResponseStates
+import com.example.searchbin.data.network.safeCall
 import com.example.searchbin.domain.MainRepository
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
@@ -25,6 +29,8 @@ class MainRepositoryImpl
     private suspend fun fetchAndCacheBinDataFromNetwork(binNumber: Long): ResponseStates<List<BinItem>> {
         return safeCall {
             val networkResult = apiService.getNetworkBinInfoDTO(binNumber)
+
+            /**guarantee that operation will done if the coroutine scope will fall*/
 
             /**guarantee that operation will done if the coroutine scope will fall*/
             coroutineScope {

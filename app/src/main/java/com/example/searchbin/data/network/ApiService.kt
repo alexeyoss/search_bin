@@ -1,6 +1,6 @@
-package com.example.searchbin.data
+package com.example.searchbin.data.network
 
-import com.example.searchbin.data.models.NetworkBinInfoDTO
+import com.example.searchbin.data.network.models.NetworkBinInfoDTO
 import retrofit2.http.GET
 import retrofit2.http.Path
 
