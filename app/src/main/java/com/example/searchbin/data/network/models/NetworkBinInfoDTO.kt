@@ -1,4 +1,4 @@
-package com.example.searchbin.data.models
+package com.example.searchbin.data.network.models
 
 import android.os.Parcelable
 import com.example.searchbin.presentation.adapters.BinItemFingerprint

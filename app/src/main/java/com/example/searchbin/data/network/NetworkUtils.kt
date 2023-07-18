@@ -1,4 +1,4 @@
-package com.example.searchbin.data
+package com.example.searchbin.data.network
 
 import com.google.gson.GsonBuilder
 import retrofit2.HttpException
@@ -13,7 +13,6 @@ suspend fun <T> safeCall(
     Timber.e(it)
     checkThrowable(it)
 }
-
 
 sealed interface ResponseStates<out T> {
     data class Success<T>(val data: T) : ResponseStates<T>

@@ -22,11 +22,11 @@ object UiUtil {
         if (addStack) {
             supportFragmentManager.beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.dataContainer, fragment, fragment.toString())
+                .replace(R.id.navHostContainer, fragment, fragment.toString())
                 .commit()
         } else {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.dataContainer, fragment)
+                .replace(R.id.navHostContainer, fragment)
                 .commit()
         }
     }

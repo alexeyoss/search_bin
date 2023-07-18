@@ -6,14 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.searchbin.R
 import com.example.searchbin.data.db.entities.CachedBinInfoDTO
 import com.example.searchbin.databinding.RequestHistoryLayoutBinding
 import com.example.searchbin.presentation.adapters.EnterBinAdapter
 import com.example.searchbin.presentation.adapters.fingerprints.RequestHistoryFingerprint
-import com.example.searchbin.presentation.enter_bin_fragment.EnterBinFragment
-import com.example.searchbin.presentation.navigate
 import com.example.searchbin.presentation.utils.CommonSideEffects
 import com.example.searchbin.presentation.utils.CommonUiStates
 import com.example.searchbin.utils.collectOnLifecycle
@@ -88,30 +87,33 @@ class RequestHistoryFragment : Fragment(R.layout.request_history_layout) {
                 is CommonSideEffects.Loading -> Unit
                 is CommonSideEffects.NoSearchResult -> {
                     Snackbar.make(
-                        binding.root,
-                        getString(R.string.noResult_snackbar_text),
-                        Snackbar.LENGTH_SHORT
+                        binding.root, getString(R.string.noResult_snackbar_text), Snackbar.LENGTH_SHORT
                     ).show()
                 }
+
                 is CommonSideEffects.ShowError -> {
                     Snackbar.make(
                         binding.root, getString(R.string.error_snackbar_text), Snackbar.LENGTH_SHORT
                     ).show()
                 }
+
                 is CommonSideEffects.ShowResult -> Unit
             }
         }
 
         binding.backBtn.setOnClickListener {
-            navigate().launchScreen(EnterBinFragment())
+            findNavController().navigate(RequestHistoryFragmentDirections.actionRequestHistoryFragmentToEnterBinFragment())
         }
     }
 
     private fun onClickInfoButton(cachedBinInfoDTO: CachedBinInfoDTO) {
         lastBottomSheetData = cachedBinInfoDTO
 
-        navigate().launchScreen(RequestHistoryDetailsBottomSheet())
-        navigate().publishResult(cachedBinInfoDTO)
+        findNavController().navigate(
+            RequestHistoryFragmentDirections.actionRequestHistoryFragmentToRequestHistoryDetailsBottomSheet(
+                cachedBinInfoDTO
+            )
+        )
     }
 
     private fun initRecyclerView() {

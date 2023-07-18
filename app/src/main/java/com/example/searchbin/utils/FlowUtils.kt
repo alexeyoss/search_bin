@@ -3,16 +3,15 @@ package com.example.searchbin.utils
 import android.os.Looper
 import android.widget.TextView
 import androidx.annotation.CheckResult
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.example.searchbin.data.ErrorState
-import com.example.searchbin.data.ResponseStates
-import com.example.searchbin.data.models.BinItem
+import com.example.searchbin.data.network.ErrorState
+import com.example.searchbin.data.network.ResponseStates
+import com.example.searchbin.data.network.models.BinItem
 import com.example.searchbin.presentation.utils.CommonUiStates
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
@@ -27,11 +26,12 @@ fun <NetworkResponse> buildRequestFlow(
 ): Flow<CommonUiStates> {
     return flow {
         emit(CommonUiStates.Loading)
-        val result = when (val requestState = block()) {
-            is ResponseStates.Success -> CommonUiStates.Success(requestState.data as List<BinItem>)
-            is ErrorState.SuccessNoResult -> CommonUiStates.SuccessNoResult
-            else -> CommonUiStates.Error(requestState as ErrorState)
-        }
+        val result =
+            when (val requestState = block()) {
+                is ResponseStates.Success -> CommonUiStates.Success(requestState.data as List<BinItem>)
+                is ErrorState.SuccessNoResult -> CommonUiStates.SuccessNoResult
+                else -> CommonUiStates.Error(requestState as ErrorState)
+            }
         emit(result)
     }
 }
@@ -49,13 +49,6 @@ fun <T> Flow<T>.collectOnLifecycle(
             }
         }
     }
-}
-
-fun <T> Flow<T>.collectOnLifecycle(
-    lifecycleOwner: AppCompatActivity,
-    collector: (T) -> Unit
-) {
-    collectOnLifecycle(lifecycleOwner, Lifecycle.State.STARTED, collector)
 }
 
 fun <T> Flow<T>.collectOnLifecycle(

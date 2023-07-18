@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchbin.R
-import com.example.searchbin.data.models.BankDTO
-import com.example.searchbin.data.models.BinItem
+import com.example.searchbin.data.network.models.BankDTO
+import com.example.searchbin.data.network.models.BinItem
 import com.example.searchbin.databinding.ItemEnterFragmentBankBinding
 import com.example.searchbin.presentation.adapters.BaseViewHolder
 import com.example.searchbin.presentation.adapters.BinItemFingerprint

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    tools:theme="@style/Theme.SearchBIN">
 
     <ImageView
         android:id="@+id/country_emoji"
@@ -33,7 +34,8 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/small_padding"
         android:text="@string/bin_country_coordination_text"
-        android:textColor="@color/md_theme_light_onPrimaryContainer"
+        android:textColor="?attr/colorSecondary"
+        android:textStyle="italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/country_name"

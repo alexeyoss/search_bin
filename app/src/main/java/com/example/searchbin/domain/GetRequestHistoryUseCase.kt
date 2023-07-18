@@ -8,6 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import timber.log.Timber
 import javax.inject.Inject
 
+/**
+ * Get request history from local storage
+ * */
 class GetRequestHistoryUseCase
 @Inject
 constructor(

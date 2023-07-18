@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.searchbin.R
 import com.example.searchbin.data.db.entities.CachedBinInfoDTO
-import com.example.searchbin.data.models.BinItem
+import com.example.searchbin.data.network.models.BinItem
 import com.example.searchbin.databinding.ItemRequestHistoryBinding
 import com.example.searchbin.presentation.adapters.BaseViewHolder
 import com.example.searchbin.presentation.adapters.BinItemFingerprint

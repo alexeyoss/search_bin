@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.DiffUtil
 import androidx.viewbinding.ViewBinding
-import com.example.searchbin.data.models.BinItem
+import com.example.searchbin.data.network.models.BinItem
 
 interface BinItemFingerprint<V : ViewBinding, I : BinItem> {
 
